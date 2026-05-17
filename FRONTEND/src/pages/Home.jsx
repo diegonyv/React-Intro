@@ -1,8 +1,9 @@
-import Header from "./Header";
-import CardPizza from "./CardPizza";
+import Header from "../components/Header";
+import CardPizza from "../components/CardPizza";
 import Pizza1 from "../assets/imgs/pizza1.jpg";
 import Pizza2 from "../assets/imgs/pizza2.jpg";
 import Pizza3 from "../assets/imgs/pizza3.jpg";
+import NavBar from "../components/NavBar";
 import { useEffect, useState } from "react";
 
 export default function Home() {

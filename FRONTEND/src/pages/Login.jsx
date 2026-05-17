@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import NavBar from "../components/NavBar";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,10 +42,11 @@ const Login = () => {
               type="password"
               placeholder="Ingresa tu contraseña"
             />
-
+            <Link to="/profile">
             <button type="submit" className="btn btn-primary" style={{ width: `7em` }}>
               Login
             </button>
+            </Link>
           </form>
         </div>
       </div>

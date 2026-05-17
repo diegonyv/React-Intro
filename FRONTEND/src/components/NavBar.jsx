@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function NavBar() {
   let total = 25000;
   const token = false;
@@ -8,9 +10,9 @@ function NavBar() {
       data-bs-theme="dark"
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           Pizería Mamma Mía
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -25,35 +27,35 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="d-flex justify-content-between w-100">
             <div className="navbar-nav">
-              <a className="btn btn-outline-light" aria-current="page" href="">
+              <Link className="btn btn-outline-light" aria-current="page" to="/">
                 🍕Home
-              </a>
+              </Link>
               {token == true ? (
                 <>
-                  <a className="btn btn-outline-light" href="">
+                  <Link className="btn btn-outline-light" to="/Profile">
                     🔓Profile
-                  </a>
+                  </Link>
                   ,
-                  <a className="btn btn-outline-light" href="">
+                  <Link className="btn btn-outline-light" to="/">
                     🔒Logout
-                  </a>
+                  </Link>
                 </>
               ) : (
                 <>
-                  <a className="btn btn-outline-light" aria-disabled="true" href="">
+                  <Link className="btn btn-outline-light" aria-disabled="true" to="/Login">
                     🔐Login
-                  </a>
+                  </Link>
                   ,   
-                  <a className="btn btn-outline-light" aria-disabled="true">
+                  <Link className="btn btn-outline-light" aria-disabled="true" to="/Register">
                     🔏Register
-                  </a>
+                  </Link>
                 </>
               )}
             </div>
             <div>
-              <a className="btn btn-outline-info" aria-disabled="true">
+              <Link className="btn btn-outline-info" aria-disabled="true" to="/Cart">
                 🛒Total: ${total.toLocaleString()}
-              </a>
+              </Link  >
             </div>
           </div>
         </div>
