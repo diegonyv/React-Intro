@@ -1,6 +1,28 @@
-import { pizzas } from "../../pizzas";
+import { useState, useEffect, useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
-const CardPizza = () => {
+
+export default function CardPizza() {
+  const [pizzas, setPizzas] = useState([]);
+  
+  const { setOrderDetail } = useContext(CartContext)  
+  const getPizzas = async () => {
+    const response = await fetch("http://localhost:5000/api/pizzas");
+    const data = await response.json();
+    setPizzas(data)
+  };
+  useEffect(()=>{
+    getPizzas();
+  }, [])
+    
+  const handleAddPizza = (pizza) => {
+    setOrderDetail((prevState)=>{
+      const prevPizza = prevState?.[pizza.name] || []
+      return {
+        ...prevState, [pizza.name] : [...prevPizza,pizza]
+      }  
+    })
+  }
   return (
     <div className="d-flex">
       {pizzas.map((pizza, indice) => (
@@ -30,14 +52,14 @@ const CardPizza = () => {
             <a href="#" className="btn btn-outline-secondary">
               Ver Más 👀
             </a>
-            <a href="#" className="btn btn-dark">
-              Añadir 🛒
+
+            <a onClick={()=> handleAddPizza(pizza)} href="#" className="btn btn-dark">
+              Añadir 🛒 
             </a>
+
           </div>
         </div>
       ))}
     </div>
   );
 };
-
-export default CardPizza;

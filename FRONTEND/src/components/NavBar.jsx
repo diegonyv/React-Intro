@@ -1,8 +1,14 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import GlobalProvider from "../contexts/CartContext";
+import { CartContext } from "../contexts/CartContext";
 
 function NavBar() {
-  let total = 25000;
-  const token = false;
+
+  const { totalPrice, user, setUser} =useContext(CartContext)
+  //console.log("user tiene valor", user)
+ // console.log("NavBar está usando", cartTotal)  
+
 
   return (
     <nav
@@ -30,7 +36,7 @@ function NavBar() {
               <Link className="btn btn-outline-light" aria-current="page" to="/">
                 🍕Home
               </Link>
-              {token == true ? (
+              {user == true ? (
                 <>
                   <Link className="btn btn-outline-light" to="/Profile">
                     🔓Profile
@@ -54,7 +60,7 @@ function NavBar() {
             </div>
             <div>
               <Link className="btn btn-outline-info" aria-disabled="true" to="/Cart">
-                🛒Total: ${total.toLocaleString()}
+                🛒Total: {totalPrice}
               </Link  >
             </div>
           </div>

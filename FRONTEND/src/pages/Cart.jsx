@@ -1,38 +1,45 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { pizzaCart } from "../../pizzas";
 import NavBar from "../components/NavBar";
+import { CartContext } from "../contexts/CartContext";
+import GlobalProvider from "../contexts/CartContext";
 
 const Cart = () => {
   const [cart, setCart] = useState(
     pizzaCart.map((pizza) => ({ ...pizza, count: 0 })),
   );
 
-  const modificarCarrito = (operacion, id) => {
-    const newCart = cart.map((pizza) => {
-      if (pizza.id === id) {
-        if (operacion === "suma") {
-          return { ...pizza, count: pizza.count + 1 };
-        }
-        if (operacion === "resta" && pizza.count >= 1) {
-          return { ...pizza, count: pizza.count - 1 };
-        }
-      }
-      return pizza;
-    });
+  const { totalPrice, orderDetail, setOrderDetail } = useContext(CartContext);
 
-    setCart(newCart);
+  const getPizzaPrice = (pizzaList) => {
+    return pizzaList?.[0]?.price * pizzaList.length;
   };
 
-  const total = cart.reduce((acc, pizza) => {
-    return acc + pizza.price * pizza.count;
-  }, 0);
+  const modificarCarrito = (operacion, pizzaList, pizzaName) => {
+   // console.log("modificar carrito", operacion, pizzaList, pizzaName )
+    if (operacion === "suma") {
+      setOrderDetail((prevState) => {
+
+        const prevPizza = prevState?.[pizzaName];
+        return { ...prevState, [pizzaName]: [...prevPizza, pizzaList[0]] };
+      });
+    }
+    if (operacion === "resta") {
+      setOrderDetail((prevState) => {
+        const prevPizza = prevState?.[pizzaName] || []
+        const filteredPizza = prevPizza.slice(0, -1)
+        return { ...prevState, [pizzaName]: filteredPizza };
+      });
+    }
+
+  };
 
   return (
     <>
       <div className="container mb-5">
         <h1 className="mt-5">Detalles del Pedido:</h1>
-        {cart.map((pizza, indice) => (
-          <div key={indice} className="d-flex m-5">
+        {Object.entries(orderDetail).map(([pizzaName, pizzaList], indice) => 
+         { return pizzaList.length > 0 && <div key={indice} className="d-flex m-5">
             <img
               className="card-img-top"
               style={{
@@ -41,7 +48,7 @@ const Cart = () => {
                 objectFit: "cover",
                 borderRadius: "8px",
               }}
-              src={pizza.img}
+              src={pizzaList?.[0]?.img}
               alt=""
             />
             <div className="d-flex row" style={{ width: "50rem" }}>
@@ -49,40 +56,47 @@ const Cart = () => {
                 className="d-flex m-3 align-items-center"
                 style={{ width: "18rem" }}
               >
-                {pizza.name}
+                {pizzaName}
               </h1>
-              <h4 className="ms-3">${pizza.price}</h4>
+              <h4 className="ms-3">${pizzaList?.[0]?.price}</h4>
             </div>
             <h1
               className="d-flex m-3 align-items-center"
               style={{ width: "10rem" }}
             >
-              $ {pizza.price * pizza.count}
+              $ {getPizzaPrice(pizzaList)}
             </h1>
             <div className="d-flex align-items-center">
               <button
-                onClick={() => modificarCarrito("suma", pizza.id)}
+                onClick={() => modificarCarrito("suma", pizzaList, pizzaName)}
                 className="btn btn-outline-danger"
                 style={{ height: "3em", width: "3em" }}
               >
                 +
               </button>
-              <h4 className="d-flex align-items-center m-3">{pizza.count}</h4>
+              <h4 className="d-flex align-items-center m-3">
+                {pizzaList.length} 
+              </h4>
               <button
-                onClick={() => modificarCarrito("resta", pizza.id)}
+                onClick={() => modificarCarrito("resta", pizzaList, pizzaName)}
                 className="btn btn-outline-primary"
                 style={{ height: "3em", width: "3em" }}
               >
                 -
               </button>
             </div>
-          </div>
-        ))}
+          </div>}
+        )}
 
-        <h1>Total: $ {total.toLocaleString()}</h1>
+        <h1>Total: $ {totalPrice}</h1>
         <button className="btn btn-dark">Pagar</button>
       </div>
     </>
   );
 };
 export default Cart;
+
+//acá, si, aquío lo que debería hacer es tomar el total que se
+//renderiza en la linea 86
+//y pasarlo al total del NavBar que es ese botón celeste
+//

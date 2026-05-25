@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <div style={{minHeight: "84vh"}}>
+      <div style={{ minHeight: "84vh" }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -29,18 +29,6 @@ function App() {
       </div>
       <Footer />
     </>
-
-    // <>
-    //   <NavBar />
-    //   <h1> Componente Home.jsx</h1>
-    //   <Home />
-    //   {/* <Login/>*/}
-    //   {/*<Register/> */}
-    //   {/* <Cart/> */}
-    //   <h1>Componente Pizza.jsx</h1>
-    //   <Pizza/>
-    //   <Footer />
-    // </>
   );
 }
 export default App;
