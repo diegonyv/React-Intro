@@ -1,10 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { pizzaCart } from "../../pizzas";
-import NavBar from "../components/NavBar";
 import { CartContext } from "../contexts/CartContext";
-import GlobalProvider from "../contexts/CartContext";
+import { UserContext } from "../contexts/UserContext";
 
 const Cart = () => {
+  const {token, logout} = useContext(UserContext)
   const [cart, setCart] = useState(
     pizzaCart.map((pizza) => ({ ...pizza, count: 0 })),
   );
@@ -89,14 +89,13 @@ const Cart = () => {
         )}
 
         <h1>Total: $ {totalPrice}</h1>
-        <button className="btn btn-dark">Pagar</button>
+    
+
+          <button className="btn btn-dark" disabled={!token}>Pagar</button>
+       
       </div>
     </>
   );
 };
 export default Cart;
 
-//acá, si, aquío lo que debería hacer es tomar el total que se
-//renderiza en la linea 86
-//y pasarlo al total del NavBar que es ese botón celeste
-//

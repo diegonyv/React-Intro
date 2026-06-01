@@ -1,28 +1,29 @@
 import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
-
+import { Link, useParams } from "react-router-dom";
 
 export default function CardPizza() {
   const [pizzas, setPizzas] = useState([]);
-  
-  const { setOrderDetail } = useContext(CartContext)  
+
+  const { setOrderDetail } = useContext(CartContext);
   const getPizzas = async () => {
     const response = await fetch("http://localhost:5000/api/pizzas");
     const data = await response.json();
-    setPizzas(data)
+    setPizzas(data);
   };
-  useEffect(()=>{
+  useEffect(() => {
     getPizzas();
-  }, [])
-    
+  }, []);
+
   const handleAddPizza = (pizza) => {
-    setOrderDetail((prevState)=>{
-      const prevPizza = prevState?.[pizza.name] || []
+    setOrderDetail((prevState) => {
+      const prevPizza = prevState?.[pizza.name] || [];
       return {
-        ...prevState, [pizza.name] : [...prevPizza,pizza]
-      }  
-    })
-  }
+        ...prevState,
+        [pizza.name]: [...prevPizza, pizza],
+      };
+    });
+  };
   return (
     <div className="d-flex">
       {pizzas.map((pizza, indice) => (
@@ -49,17 +50,24 @@ export default function CardPizza() {
             </li>
           </ul>
           <div className="card-body d-flex justify-content-evenly">
-            <a href="#" className="btn btn-outline-secondary">
+            <Link
+              to={"/pizza/" + pizza.id}
+              className="btn btn-outline-secondary"
+              //onClick={handleDetails()}
+            >
               Ver Más 👀
-            </a>
+            </Link>
 
-            <a onClick={()=> handleAddPizza(pizza)} href="#" className="btn btn-dark">
-              Añadir 🛒 
-            </a>
-
+            <Link
+              onClick={() => handleAddPizza(pizza)}
+              href="#"
+              className="btn btn-dark"
+            >
+              Añadir 🛒
+            </Link>
           </div>
         </div>
       ))}
     </div>
   );
-};
+}

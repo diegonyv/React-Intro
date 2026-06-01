@@ -1,18 +1,23 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import GlobalProvider from "./contexts/CartContext.jsx";
-import { CartContext } from "./contexts/CartContext.jsx";
+import CartProvider from "./contexts/CartContext.jsx";
+import GlobalProvider from "./contexts/GlobalContext.jsx";
+import UserProvider from "./contexts/UserContext.jsx";
 import "./index.css";
 import App from "./App.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <GlobalProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </GlobalProvider>
+    <UserProvider>
+      <GlobalProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </CartProvider>
+      </GlobalProvider>
+    </UserProvider>
   </StrictMode>,
 );

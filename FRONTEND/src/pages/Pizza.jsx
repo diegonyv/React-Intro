@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-
-// Nombre de la pizza.
-// Precio de la pizza.
-// Ingredientes de la pizza.
-// Imagen de la pizza.
-// Descripción de la pizza.
+import { useParams } from "react-router-dom";
 
 
 export default function Pizza(){
 const [pizza, setPizza] = useState();
 
+    const parametros = useParams()
+
+    console.log(parametros)
+
+    let apiUrl = "http://localhost:5000/api/pizzas/" + parametros.id
+
     const getPizza = async () => {
-        const response = await fetch("http://localhost:5000/api/pizzas/p001")
+        const response = await fetch(apiUrl)
         const data = await response.json()
 
-        console.log(data);
 
         setPizza(data);
 
