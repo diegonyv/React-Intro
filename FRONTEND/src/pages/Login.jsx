@@ -5,32 +5,30 @@ import { Form } from "react-bootstrap";
 import { GlobalContext } from "../contexts/GlobalContext";
 import { UserContext } from "../contexts/UserContext";
 
-
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const {token, login} = useContext(UserContext)
+  const { token, login } = useContext(UserContext);
   const { user, setUser } = useContext(GlobalContext);
   const [email, setEmail] = useState("");
-  const [contraseña, setContraseña] = useState("");
+  const [password, setPassword] = useState("");
 
-  const validarDatos = (e) => {
+  const validarDatos = async (e) => {
     e.preventDefault();
-    console.log("El usuario actual es ", user);
-    console.log("los datos recibidos son ", email, "y ", contraseña);
-    setUser({ email, contraseña })
-    if (email !== "" && contraseña !== "" && contraseña.length >= 6) {
-      alert("Sesión Iniciada");
-      navigate("/profile")
-      login()
+
+    setUser({ email, password });
+    if (email !== "" && password !== "" && password.length >= 6) {
+      const succes = await login(email, password);
+      if (succes) {
+        alert("Sesión Iniciada");
+      }
     }
-    if (!email.trim() || !contraseña.trim()) {
+    if (!email.trim() || !password.trim()) {
       alert("Todos los campos son obligatorios");
     }
-    if (contraseña.length < 6) {
-      alert("Contraseña Incorrecta");
-    } 
-    console.log("User ahora es: ", user)
+    if (password.length < 6) {
+      alert("password Incorrecta");
+    }
   };
 
   return (
@@ -50,17 +48,17 @@ const Login = () => {
               />
               <h4>Contraseña</h4>
               <Form.Control
-                onChange={(e) => setContraseña(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="mb-3"
                 type="password"
-                placeholder="Ingresa tu contraseña"
-                value={contraseña}
+                placeholder="Ingresa tu password"
+                value={password}
               />
               <button
                 type="submit"
                 className="btn btn-primary"
                 style={{ width: `7em` }}
-                              >
+              >
                 Login
               </button>
             </Form.Group>

@@ -10,14 +10,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <UserProvider>
-      <GlobalProvider>
-        <CartProvider>
-          <BrowserRouter>
+    <BrowserRouter>
+      <UserProvider>
+        <GlobalProvider>
+          <CartProvider>
             <App />
-          </BrowserRouter>
-        </CartProvider>
-      </GlobalProvider>
-    </UserProvider>
+          </CartProvider>
+        </GlobalProvider>
+      </UserProvider>
+    </BrowserRouter>
   </StrictMode>,
 );

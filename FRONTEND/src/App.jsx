@@ -16,7 +16,9 @@ import { useContext } from "react";
 // import Login from "./components/Login";
 
 function App() {
-  const {token} = useContext(UserContext)
+  const { token, user } = useContext(UserContext)
+  console.log("TOKEN:", token);
+  console.log("USER:", user);
 
   return (
     <>
@@ -24,11 +26,11 @@ function App() {
       <div style={{ minHeight: "84vh" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={token ? <Navigate to="/"/> : <Register />} />
-          <Route path="/login" element={token ? <Navigate to="/"/> : <Login />} />
+          <Route path="/register" element={token ? <Navigate to="/profile"/> : <Register />} />
+          <Route path="/login" element={token ? <Navigate to="/profile"/> : <Login />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/pizza/:id" element={<Pizza />} />
-          <Route path="/profile" element={token == true ? (<Profile />) : (<Navigate to= "/Login" />)} />
+          <Route path="/profile" element={token ? <Profile /> : <Navigate to="/login" />} />
           <Route path="/404" element={<NotFound />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>

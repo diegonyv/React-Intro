@@ -37,9 +37,9 @@ function NavBar() {
               <Link className="btn btn-outline-light" aria-current="page" to="/">
                 🍕Home
               </Link>
-              {token == true ? (
+              {token ? (
                 <>
-                  <Link className="btn btn-outline-light" to="/Profile">
+                  <Link className="btn btn-outline-light" to="/profile">
                     🔓Profile
                   </Link>
                   ,
@@ -49,18 +49,18 @@ function NavBar() {
                 </>
               ) : (
                 <>
-                  <Link className="btn btn-outline-light" aria-disabled="true" to="/Login">
+                  <Link className="btn btn-outline-light" aria-disabled="true" to="/login">
                     🔐Login
                   </Link>
                   ,   
-                  <Link className="btn btn-outline-light" aria-disabled="true" to="/Register">
+                  <Link className="btn btn-outline-light" aria-disabled="true" to="/register">
                     🔏Register
                   </Link>
                 </>
               )}
             </div>
             <div>
-              <Link className="btn btn-outline-info" aria-disabled="true" to="/Cart">
+              <Link className="btn btn-outline-info" aria-disabled="true" to="/cart">
                 🛒Total: {totalPrice}
               </Link  >
             </div>

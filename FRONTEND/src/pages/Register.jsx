@@ -1,31 +1,43 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [contraseña, setContraseña] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmacion, setConfirmacion] = useState("");
+  const { login, register } = useContext(UserContext)
+  const navigate = useNavigate()
+  
 
-  const validarDatos = (e) => {
+  const validarDatos = async (e) => {
+    console.log("Entró a ValidarDatos")
     e.preventDefault();
     if (
       email !== "" &&
-      contraseña !== "" &&
+      password !== "" &&
       confirmacion !== "" &&
-      contraseña.length >= 6 &&
-      contraseña === confirmacion
+      password.length >= 6 &&
+      password === confirmacion
     ) {
-      alert("¡Validación Exitosa!");
     }
-    if (!email.trim() || !contraseña.trim() || !confirmacion.trim()) {
+    if (!email.trim() || !password.trim() || !confirmacion.trim()) {
       alert("Todos los campos son obligatorios");
+      return;
     }
-    if (contraseña.length < 6) {
-      alert("La Contraseña debe ser de mínimo 6 caracteres");
+    if (password.length < 6) {
+      alert("La password debe ser de mínimo 6 caracteres");
+      return;
     }
-    if (confirmacion !== contraseña) {
-      alert("La Contraseña y la Confirmación no coinciden");
+    if (confirmacion !== password) {
+      alert("La password y la Confirmación no coinciden");
+      return; 
+    }
+    const succes = await register(email, password)
+    if (succes) {
+      alert("Usurario registrado con éxito")
     }
   };
   return (
@@ -41,20 +53,23 @@ const Register = () => {
                 className="mb-3"
                 type="text"
                 placeholder="Ingresa tu Correo"
+                required
               />
               <h4>Contraseña</h4>
               <Form.Control
-                onChange={(e) => setContraseña(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="mb-3"
                 type="password"
-                placeholder="Crea tu contraseña"
+                placeholder="Crea tu password"
+                required
               />
               <h4>Confirmar Contraseña</h4>
               <Form.Control
                 onChange={(e) => setConfirmacion(e.target.value)}
                 className="mb-3"
                 type="password"
-                placeholder="Confirma tu contraseña"
+                placeholder="Confirma tu password"
+                required
               />
               <button
                 type="submit"
